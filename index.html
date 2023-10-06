@@ -149,9 +149,10 @@ Events.BlockPlace(function (event)
         local pos = event.position
         local parts = loadStudio(pos,b.data)
         customBlockGrid[pos] = {
-            callback = b.callback,
+            breakFunc = b.breakFunc,
             parts = parts
         }
+        b.placeFunc(event)
     end
 end)
 Events.BlockBreak(function (event)
@@ -163,7 +164,7 @@ Events.BlockBreak(function (event)
         for i,v in pairs(block.parts) do
             v:destroy()
         end
-        block.callback(event)
+        block.breakFunc(event)
     end
 end)`
             }
