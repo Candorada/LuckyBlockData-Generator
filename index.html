@@ -37,7 +37,7 @@
             var DataFileName = document.createElement("INPUT")
             DataFileName.type = "text"
             DataFileName.id = "DataFileName"
-            DataFileName.placeholder = "Data File Name"
+            DataFileName.placeholder = "Block Data Here"
             newElm.append(DataFileName)
             var newBtn = document.createElement("INPUT")
             newBtn.type = "button"
@@ -106,7 +106,7 @@
 
     SoundService.playSound(SoundType.LUCKY_BLOCK_BREAK)
     end,
-    data = require("`+parent.querySelector("#DataFileName").value+`")
+    data = `+parent.querySelector("#DataFileName").value+`
 },`
 return list+"}"+extra
             }
