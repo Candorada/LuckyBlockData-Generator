@@ -14,8 +14,10 @@
         }
         
     </style>
-    <body>
-            <input id = createBlockBtn type="button" value="+ New LuckyBlock">
+    <body>  
+        <div id = blocks></div>
+        <input id = createBlockBtn type="button" value="+ New LuckyBlock">
+            <input id = generateMainLua type="button" value="Generate Main.lua">
         <br>
         output:
         <br>
@@ -71,10 +73,8 @@
             exportBtn.type = "button"
             exportBtn.value = "Export Lucky Block"
             newElm.append(exportBtn)
-            document.body.insertBefore(newElm,createBlockBtn)
-
-            exportBtn.onclick = function(){
-                var parent = exportBtn.parentElement
+            blocks.append(newElm)
+            function getBlockData(parent){
                 var items = parent.childNodes
                 var list = `["`+parent.querySelector("#BlockType").value+`"] = {
         placeFunc = function (event)
@@ -108,7 +108,64 @@
     end,
     data = require("`+parent.querySelector("#DataFileName").value+`")
 },`
-                document.querySelector("#output").innerHTML =  list+"}"+extra
+return list+"}"+extra
+            }
+            exportBtn.onclick = function(){
+                var parent = exportBtn.parentElement
+                document.querySelector("#output").innerHTML = getBlockData(parent)
+            }
+            generateMainLua.onclick = function(){
+                var all = ""
+                for(block of blocks.childNodes){
+                    all += getBlockData(block)
+                }
+                output.innerHTML = `local customBlockGrid = {
+
+}
+function loadStudio(pos,data,defaultBlockType)
+    defaultBlockType = defaultBlockType or ItemType.WOOL_BLUE
+    local parts = {}
+    for i,v in pairs(data) do
+        if v.Texture == "" then v.Texture = defaultBlockType end
+        local part = PartService.createPart(v.Texture,pos)
+        parts[#parts+1] = part
+        part:setSize(v.Size)
+        part:setCFrame(part:getCFrame()*v["CFrame"])
+        part:setAnchored(v.Anchored)
+        part:setCollidable(v.CanCollide)
+        part:setTransparency(v.Transparency)
+    end
+    return parts
+end
+local customBlocks = {
+ `+all+`
+}
+Events.BlockPlace(function (event)
+    local b = customBlocks[event.blockType]
+    if b then
+        event.cancelled = true
+        InventoryService.removeItemAmount(event.player,event.blockType,1)
+        BlockService.placeBlock(ItemType.STONE_PLAYER_BLOCK,event.position)
+        local pos = event.position
+        local parts = loadStudio(pos,b.data)
+        customBlockGrid[pos] = {
+            callback = b.callback,
+            parts = parts
+        }
+    end
+end)
+Events.BlockBreak(function (event)
+    local b = customBlockGrid[event.position]
+    if b then
+        local pos = event.position
+        local block = customBlockGrid[pos]
+        customBlockGrid[pos] = nil
+        for i,v in pairs(block.parts) do
+            v:destroy()
+        end
+        block.callback(event)
+    end
+end)`
             }
         }
     </script>
