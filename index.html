@@ -1,0 +1,115 @@
+<html>
+    <style>
+        .box{
+            min-height: 40px;
+            min-width: 100px;
+            box-shadow:  0px 0px 5px black;
+            margin:10px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        input{
+            max-width: max-content;
+        }
+        
+    </style>
+    <body>
+            <input id = createBlockBtn type="button" value="+ New LuckyBlock">
+        <br>
+        output:
+        <br>
+            <textarea name="" id="output" cols="30" rows="10">
+
+            </textarea>
+    </body>
+    <script>
+        createBlockBtn.onclick = function(){
+            var newElm = document.createElement("DIV")
+            newElm.classList = "box"
+            var blockType = document.createElement("INPUT")
+            blockType.type = "text"
+            blockType.id = "BlockType"
+            blockType.placeholder = "Lucky Block ItemType"
+            newElm.append(blockType)
+            var DataFileName = document.createElement("INPUT")
+            DataFileName.type = "text"
+            DataFileName.id = "DataFileName"
+            DataFileName.placeholder = "Data File Name"
+            newElm.append(DataFileName)
+            var newBtn = document.createElement("INPUT")
+            newBtn.type = "button"
+            newBtn.value = "+ New Item"
+            newBtn.onclick = function(){
+                var newItem = document.createElement("DIV")
+                newItem.classList = "box"
+                newBtn.parentElement.insertBefore(newItem,newBtn)
+                var newInput = document.createElement("INPUT")
+                newInput.type = "text"
+                newInput.id = "ItemType"
+                newInput.placeholder = "ItemType"
+                newItem.append(newInput)
+                var newInput = document.createElement("INPUT")
+                newInput.type = "text"
+                newInput.id = "DropChance"
+                newInput.placeholder = "DropChance"
+                newItem.append(newInput)
+                var newInput = document.createElement("INPUT")
+                newInput.type = "text"
+                newInput.id = "MinDropCount"
+                newInput.placeholder = "MinDropCount"
+                newItem.append(newInput)
+                var newInput = document.createElement("INPUT")
+                newInput.type = "text"
+                newInput.id = "MaxDropCount"
+                newInput.placeholder = "MaxDropCount"
+                newItem.append(newInput)
+                
+            }
+            newElm.append(newBtn)
+            var exportBtn = document.createElement("INPUT")
+            exportBtn.type = "button"
+            exportBtn.value = "Export Lucky Block"
+            newElm.append(exportBtn)
+            document.body.insertBefore(newElm,createBlockBtn)
+
+            exportBtn.onclick = function(){
+                var parent = exportBtn.parentElement
+                var items = parent.childNodes
+                var list = `["`+parent.querySelector("#BlockType").value+`"] = {
+        placeFunc = function (event)
+            
+        end,
+        breakFunc = function (event)
+            local drops = {`
+                for(item of items){
+                    if(item.classList == "box"){
+                        var ItemType = item.querySelector("#ItemType").value
+                        var DropChance = item.querySelector("#DropChance").value
+                        var MinDropCount = item.querySelector("#MinDropCount").value
+                        var MaxDropCount = item.querySelector("#MaxDropCount").value
+                        var str = '{ type = "'+ItemType+'",chance = '+DropChance+',minDrop = '+MinDropCount+',maxDrop = '+MaxDropCount+'}'
+                        list = list+str+","
+                    }
+                }
+                var extra = `
+    local roll = math.floor(math.random()*100)
+    local drop = {}
+    local total = 0
+    for i,v in pairs(drops) do
+        total = total+v.chance
+        if total >= roll and not drop.type then
+            drop = v
+        end
+    end
+    ItemService.dropItem(drop.type,event.position,math.ceil(drop.minDrop +(drop.maxDrop-drop.minDrop)*math.random()))
+
+    SoundService.playSound(SoundType.LUCKY_BLOCK_BREAK)
+    end,
+    data = require("`+parent.querySelector("#DataFileName").value+`")
+},`
+                document.querySelector("#output").innerHTML =  list+"}"+extra
+            }
+        }
+    </script>
+</html>
