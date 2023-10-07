@@ -35,6 +35,27 @@
             background-color: rgba(0,0,0,0);
             visibility: hidden;
         }
+        .infoCardList{
+            box-shadow:0px 0px 5px,inset 0px 0px 5px ;
+            margin:10px;
+            width: fit-content;
+            max-height: 300px;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .guessed{
+            color:green;
+            padding: 0px!important;
+            box-sizing: border-box;
+        }
+        .asking{
+            color:gray;
+            padding: 0px!important;
+            box-sizing: border-box;
+        }
+        table {
+        border-collapse: collapse;
+        }
         
     </style>
     <body>  
@@ -47,8 +68,43 @@
             <textarea name="" id="output" cols="30" rows="10">
 
             </textarea>
+            <div class = infoCardList>
+
+            </div>
     </body>
     <script>
+        const cardData = ["dirt","grass","stone","stone_tiles","cobblestone","moss_block","wood_pickaxe","stone_pickaxe","iron_pickaxe","diamond_pickaxe","wood_axe","stone_axe","iron_axe","diamond_axe","oak_log","birch_log","spruce_log","hickory_log","stone_pillar","stone_slab","stone_brick","stone_brick_builder","brick","andesite","andesite_polished","diorite","diorite_polished","granite","granite_polished","obsidian","wool_white","wool_builder","wool_blue","wool_red","wool_orange","wool_green","wool_yellow","wool_pink","wool_cyan","wool_purple","void_block","invisible_block","bed","wood_sword","stone_sword","iron_sword","diamond_sword","emerald_sword","void_sword","leather_helmet","leather_chestplate","leather_boots","iron_helmet","iron_chestplate","iron_boots","diamond_helmet","diamond_chestplate","diamond_boots","emerald_helmet","emerald_chestplate","emerald_boots","juggernaut_helmet","juggernaut_chestplate","juggernaut_boots","juggernaut_rage_blade","void_helmet","void_chestplate","void_boots","iron","diamond","gold","diamond_block","emerald","emerald_block","iron_block","gold_block","guilded_iron","copper_block","steel_block","galactite","galactite_brick","kobblak","kresh","clay","clay_orange","clay_dark_green","clay_light_green","clay_red","clay_blue","clay_pink","clay_purple","clay_black","clay_tan","clay_light_brown","clay_dark_brown","clay_yellow","clay_white","clay_gray","tnt","siege_tnt","ceramic","slime_block","arrow","wood_bow","wood_crossbow","tactical_crossbow","telepearl","snow","ice","marble","marble_pillar","slate_brick","slate_tiles","sand","sandstone","sandstone_polished","sandstone_smooth","red_sand","red_sandstone","red_sandstone_polished","red_sandstone_smooth","wood_plank_oak","wood_plank_oak_builder","wood_plank_birch","wood_plank_maple","wood_plank_spruce","bookshelf","glass","melon_seeds","melon","carrot_seeds","carrot","watering_can","hammer","apple","pie","zipline","zipline_base","rageblade","guitar","balloon","cannon","manual_cannon","auto_cannon","spread_cannon","fireball","lasso","wizard_staff","wizard_staff_2","wizard_staff_3","shears","tablet","camera_turret","flamethrower","ember","frost_crystal","raven","bee_net","bee","beehive","brewing_cauldron","jade_hammer","warrior_helmet","warrior_chestplate","warrior_boots","baguette","spirit","tesla_trap","charge_shield","rocket_launcher","rocket_launcher_missile","tornado_launcher","impulse_grenade","smoke_grenade","hot_potato","sleep_splash_potion","knockback_fish","invisibility_potion","jump_potion","speed_potion","large_rock","throwable_bridge","lucky_block","lucky_block_trap","swap_ball","banana_peel","vacuum","jump_boots","speed_boots","shield_axolotl","damage_axolotl","health_regen_axolotl","break_speed_axolotl","snap_trap","fishing_rod","mini_shield","big_shield","spear","oil_consumable","stopwatch","fisherman_coral","giant_potion","shrink_potion","snowball","baseball_bat","fake_bed","taser","feather_bow","big_wood_sword","blackhole_bomb","popup_cube","robbery_ball","guided_missile","purple_lucky_block","ice_sword","chest","personal_chest","hang_glider","broken_enchant_table","enchant_table","enchant_table_glitched","gumdrop_bounce_pad","santa_bomb","frosted_snowball","void_axe","golden_bow","throwing_knife","scythe","smoke_bomb","smoke_block","concrete_green","wood_dao","stone_dao","iron_dao","diamond_dao","emerald_dao","firework_arrow","duck_spawn_egg","juggernaut_crate","heat_seeking_rock","battle_axe","twirlblade","forcefield_potion","time_bomb_potion","mass_hammer","stone_player_block","miner_pickaxe","turtle_shell","double_edge_sword","paint_shotgun","carrot_cannon","carrot_rocket","boba_blaster","boba_pearl","c4_bomb","bomb_controller","vending_machine","crook","wild_flower","thorns","mushrooms","poison_splash_potion","heal_splash_potion","frying_pan","big_head_potion","bedrock","barrier","grappling_hook","invisible_landmine","infernal_shield","bear_claws","teleport_block","metal_detector","portal_gun","light_sword","magma_block","infernal_saber","drone","damage_banner","defense_banner","heal_banner","helicopter_deploy","ufo_deploy","attack_helicopter_deploy","flag","player_vacuum","grenade_launcher","stun_grenade","dino_deploy","vitality_star","crit_star","team_door","spike_trap","auto_turret","shock_wave_turret","pinata","void_portal","void_crystal","candy","void_turret","void_turret_tablet","huge_lucky_block","toy_hammer","sticky_firework","dizzy_toad","spirit_dagger","spirit_dagger_left","flower_purple","small_bush","large_bush","rocket_belt","broken_snow_cone_machine","snow_cone_machine","snow_cone","lucky_snow_cone","tennis_racket","tennis_ball","volley_arrow","turtle_backpack","healing_backpack","spike_shell_backpack","portable_vending_machine","cannon_ball","blunderbuss","blunderbuss_bullet","pirate_sword_fp","cutlass_ghost","pirate_flag","pirate_shovel","pirate_telescope","trumpet","glitched_lucky_block","glitch_snowball","glitch_wood_bow","glitch_popup_cube","glitch_robbery_ball","glitch_throwable_bridge","glitch_apple","glitch_grenade_launcher","glitch_stun_grenade","glitch_guitar","glitch_infernal_shield","glitch_big_shield","glitch_taser","glitch_wood_sword","glitch_trumpet","glitch_tactical_crossbow","glitch_void_sword","mage_spellbook","natures_essence_1","natures_essence_2","natures_essence_3","natures_essence_4","dragon_egg","dragon_beath","necromancer_staff","wormhole","pumpkin_seeds","pumpkin","pumpkin_bomb_1","pumpkin_bomb_2","pumpkin_bomb_3","scepter","gashapon","satellite_dish","glue_trap","glue_projectile","iron_ore","noxious_sledgehammer","repair_tool","frosty_hammer","ice_fishing_rod","laser_sword","solar_panel","orbital_satellite_tablet","cosmic_lucky_block","meteor_shower","orions_belt_bow","star","party_popper","party_cannon","new_years_lucky_block","sparkler","sparkling_apple_juice","fire_sheep_statue","purple_hay_bale","damage_orb_emerald","damage_orb_diamond","teleport_hat","teleporting_hatter","owl_orb","owl_shooter","drawbridge","scaffold","golden_apple","rainbow_bow","rainbow_arrow","rainbow_axe","rainbow_staff","double_rainbow_boots","rainbow_backpack","murderer_dagger","sheriff_crossbow","murderer_throwing_knife","beehive_grenade","wool_shear","rainbow_lucky_block","rainbow_key","rainbow_pot_of_gold","drill","drill_controller","lantern_block","aquamarine_lantern","glowstone","sand_spear","emerald_egg","egg_launcher","easter_egg_projectile","flower_bow","flower_crossbow","desert_pot","pirate_gunpowder_barrel","orange","headhunt_skull","mysterious_box","wizard_stick","merchant_region_block","headhunter","merchant_damage_buff","merchant_heal_buff","flying_lucky_block","flying_cloud_deploy","sky_scythe","flying_backpack","impulse_gun","treasure_chest","forge","wood_dagger","stone_dagger","iron_dagger","diamond_dagger","mythic_dagger","wood_scythe","stone_scythe","iron_scythe","diamond_scythe","mythic_scythe","wood_great_hammer","stone_great_hammer","iron_great_hammer","diamond_great_hammer","mythic_great_hammer","hot_air_balloon_deploy","spirit_bridge","tactical_headhunter","flower_headhunter","chicken_egg","chicken_egg_block","chicken_deploy","chicken_shop_item","team_crate","can_of_beans","condiment_gun","fork_trident","fork_trident_projectile","hotdog_bat","bacon_blade","food_lucky_block","gumball_launcher","gum_block","og_wood_crossbow","og_diamond_sword","og_emerald_sword","radioactive_plant","barbarian_helmet","wood_gauntlets","stone_gauntlets","iron_gauntlets","diamond_gauntlets","mythic_gauntlets",]
+        function updateItemTypeSuggestions(){
+        var allItemTypes = document.querySelectorAll(".ItemType")
+        for(input of allItemTypes){
+            input.onchange = function(){
+                document.querySelector(".infoCardList").innerHTML = ""
+            }
+            input.oninput = function(){
+                var list = document.querySelector(".infoCardList")
+                list.innerHTML = ""
+                if(input.value !=""){
+                for(ItemType of cardData){
+                    
+                    var split = ItemType.split(input.value)
+                    if(split.length > 1){
+                    var out = ""
+                        var table = document.createElement("TABLE")
+                        table.CELLPADDING = 0
+                        var tableRow = document.createElement("tr")
+                        list.append(table)
+                        table.append(tableRow)
+                        for(i in split){
+                            split[i] = "<td class = asking>"+split[i]+"</td>"
+                        }
+                        split = split.join("<td class = guessed>"+input.value+"</td>")
+                        tableRow.innerHTML = split
+                    }
+                }
+            }
+        }
+        }
+        }
         createBlockBtn.onclick = function(){
             var newElm = document.createElement("DIV")
             newElm.classList = "box"
@@ -63,6 +119,7 @@
             var blockType = document.createElement("INPUT")
             blockType.type = "text"
             blockType.id = "BlockType"
+            blockType.classList = "ItemType"
             blockType.placeholder = "Lucky Block ItemType"
             newElm.append(blockType)
             var DataFileName = document.createElement("INPUT")
@@ -88,6 +145,7 @@
                 var newInput = document.createElement("INPUT")
                 newInput.type = "text"
                 newInput.id = "ItemType"
+                newInput.classList = "ItemType"
                 newInput.placeholder = "ItemType"
                 newItem.append(newInput)
                 var newInput = document.createElement("INPUT")
@@ -105,7 +163,7 @@
                 newInput.id = "MaxDropCount"
                 newInput.placeholder = "MaxDropCount"
                 newItem.append(newInput)
-                
+                updateItemTypeSuggestions()
             }
             newElm.append(newBtn)
             var exportBtn = document.createElement("INPUT")
@@ -207,6 +265,8 @@ Events.BlockBreak(function (event)
     end
 end)`
             }
+            updateItemTypeSuggestions()
         }
     </script>
+
 </html>
