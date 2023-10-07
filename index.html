@@ -1,16 +1,39 @@
 <html>
     <style>
+        body{
+            background-color: rgb(54,57,62);
+        }
         .box{
             min-height: 40px;
             min-width: 100px;
-            box-shadow:  0px 0px 5px black;
+            box-shadow:  0px 0px 5px,inset 0px 0px 5px;
             margin:10px;
+            margin-left: 30px;
             padding: 5px;
             display: flex;
             flex-direction: column;
         }
         input{
+            background-color: rgba(200,200,200);
+            outline: none;
+            border:none;
+            box-shadow: inset 0px 0px 3px;
             max-width: max-content;
+        }
+        ::placeholder{
+            color:rgb(100,100,100);
+        }
+        textarea{
+            background-color: black;
+            color:lime;
+            outline:none;
+            border:none;
+            stroke: none;
+            box-shadow:  0px 0px 5px lime,inset 0px 0px 5px lime;
+        }
+        textarea::-webkit-scrollbar,textarea::-webkit-scrollbar-corner{
+            background-color: rgba(0,0,0,0);
+            visibility: hidden;
         }
         
     </style>
@@ -29,6 +52,14 @@
         createBlockBtn.onclick = function(){
             var newElm = document.createElement("DIV")
             newElm.classList = "box"
+            newElm.style.position = "relative"
+            var closeBTN = document.createElement("BUTTON")
+            closeBTN.style = "position:absolute;background-color:transparent;border:none;float:right;top:0px;right:0px;"
+            closeBTN.innerText = "x"
+            closeBTN.onclick = function(){
+                closeBTN.parentElement.remove()
+            }
+            newElm.append(closeBTN)
             var blockType = document.createElement("INPUT")
             blockType.type = "text"
             blockType.id = "BlockType"
@@ -45,7 +76,15 @@
             newBtn.onclick = function(){
                 var newItem = document.createElement("DIV")
                 newItem.classList = "box"
+                newItem.style.position = "relative"
                 newBtn.parentElement.insertBefore(newItem,newBtn)
+                var closeBTN = document.createElement("BUTTON")
+                closeBTN.style = "position:absolute;background-color:transparent;border:none;float:right;top:0px;right:0px;"
+                closeBTN.innerText = "x"
+                closeBTN.onclick = function(){
+                closeBTN.parentElement.remove()
+            }
+                newItem.append(closeBTN)
                 var newInput = document.createElement("INPUT")
                 newInput.type = "text"
                 newInput.id = "ItemType"
