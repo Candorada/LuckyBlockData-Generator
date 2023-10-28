@@ -219,21 +219,51 @@ return list+"}"+extra
                 output.innerHTML = `local customBlockGrid = {
 
 }
+
 function loadStudio(pos,data,defaultBlockType)
-    defaultBlockType = defaultBlockType or ItemType.WOOL_BLUE
-    local parts = {}
-    for i,v in pairs(data) do
-        if v.Texture == "" then v.Texture = defaultBlockType end
-        local part = PartService.createPart(v.Texture,pos)
-        parts[#parts+1] = part
-        part:setSize(v.Size)
-        part:setCFrame(part:getCFrame()*v["CFrame"])
-        part:setAnchored(v.Anchored)
-        part:setCollidable(v.CanCollide)
-        part:setTransparency(v.Transparency)
-    end
-    return parts
+	defaultBlockType = defaultBlockType or ItemType.WOOL_BLUE
+	local parts = {}
+	for i,v in pairs(data) do
+		if v.ClassName == "Part" then
+			if v.Texture == "" then v.Texture = defaultBlockType end
+			local part = PartService.createPart(v.Texture,pos)
+			parts[i] = part -- note to self -- implement custom Indexes to run code better
+			part:setSize(v.Size)
+			part:setCFrame(part:getCFrame()*v["CFrame"])
+			part:setAnchored(v.Anchored)
+			part:setCollidable(v.CanCollide)
+			part:setTransparency(v.Transparency)
+
+
+		elseif v.ClassName == "ParticleEmitter" then
+			local part = ParticleService.createParticleEmitter(pos,v.RegionSize)
+			parts[i] = part -- note to self -- implement custom Indexes to run code better
+			part:setTexture(v.Texture)
+			part:setColor(v.Color)
+			part:setRate(v.Rate)
+			part:setCFrame(part:getCFrame()*v.CFrame)
+			part:setRegionSize(v.RegionSize)
+			part:setSize(v.Size)
+			part:setTransparency(v.Transparency)
+			part:setSpeed(v.Speed)
+			part:setAcceleration(v.Acceleration)
+			part:setDrag(v.Drag)
+			part:setLifetime(v.Lifetime)
+			part:setParticleRotation(v.Rotation)
+			part:setRotSpeed(v.RotSpeed)
+			part:setLightInfluence(v.LightInfluence)
+			part:setLightEmission(v.LightEmission)
+			part:setSquash(v.Squash)
+			part:setSpreadAngle(v.SpreadAngle)
+			part:setTimeScale(v.TimeScale)
+			part:setEnabled(v.Enabled)
+			part:setLockedToPart(v.LockedToPart)
+		end
+	end
+	return parts
 end
+local center = BlockService.getAllBlocks({"wool_blue"})[1].position + Vector3.new(0,3,0)
+loadStudio(center,data)
 local customBlocks = {
  `+all+`
 }
